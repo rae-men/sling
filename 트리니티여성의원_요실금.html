@@ -747,6 +747,13 @@
           max-width: 48rem !important;
         }
       }
+      /* 퀵메뉴가 섹션 요소에 가려지지 않도록 최상위 레이어 고정 */
+      #quick-menu,
+      #quick-menu-mobile {
+        position: fixed !important;
+        z-index: 9998 !important;
+        isolation: isolate;
+      }
       @media (min-width: 640px) {
         #trinity-preview-content #urinary-treatments #treatment-mobile {
           display: none;
