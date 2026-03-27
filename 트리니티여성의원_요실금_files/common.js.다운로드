@@ -1,0 +1,78 @@
+// 헤더 메뉴 스크립트
+$(document).ready(function() {
+    // 모바일 메뉴 버튼 추가
+    $('.menu-wrapper').before('<button type="button" class="mobile-menu-btn"><span></span><span></span><span></span></button>');
+    
+    // PC 메뉴 호버 이벤트
+    if ($(window).width() > 768) {
+        $('.menu-wrapper > ul > li').hover(
+            function() {
+                $(this).find('.depth2').stop().slideDown(300);
+            },
+            function() {
+                $(this).find('.depth2').stop().slideUp(300);
+            }
+        );
+    }
+    
+    // 모바일 메뉴 클릭 이벤트
+    $('.mobile-menu-btn').click(function() {
+        $(this).toggleClass('active');
+        $('.menu-wrapper').toggleClass('active');
+        $('body').toggleClass('menu-open');
+    });
+    
+    // 모바일에서 1depth 메뉴 클릭시 2depth 토글
+    $('.menu-wrapper > ul > li > a').click(function(e) {
+        if ($(window).width() <= 768) {
+            if ($(this).siblings('.depth2').length > 0) {
+                e.preventDefault();
+                $(this).siblings('.depth2').slideToggle(300);
+                $(this).parent().toggleClass('active');
+            }
+        }
+    });
+    
+    // 리사이즈 이벤트
+    $(window).resize(function() {
+        if ($(window).width() > 768) {
+            $('.depth2').removeAttr('style');
+            $('.menu-wrapper').removeClass('active');
+            $('.mobile-menu-btn').removeClass('active');
+            $('body').removeClass('menu-open');
+        }
+    });
+    
+    // 현재 선택된 메뉴 텍스트를 가져와서 버튼 생성
+    var currentMenu = $('.location ul li.on a').text();
+    if (!currentMenu) {
+        currentMenu = '메뉴';
+    }
+    
+    $('.location').prepend('<a href="#" class="current-menu">' + currentMenu + '</a>');
+    
+    // 모바일 메뉴 토글
+    if ($(window).width() < 1024) {
+	    $('.location .current-menu').click(function(e) {
+	        e.preventDefault();
+	        $(this).parent('.location').toggleClass('active');
+	        $(this).siblings('ul').slideToggle(300);
+	    });
+    
+	    // 메뉴 항목 클릭 시
+	    $('.location ul li a').click(function() {
+	        var selectedText = $(this).text();
+	        $(this).closest('.location').find('.current-menu').text(selectedText);
+	        $(this).closest('ul').slideUp(300);
+	        $(this).closest('.location').removeClass('active');
+	    });
+	    
+	    // 외부 영역 클릭 시 메뉴 닫기
+	    $(document).click(function(e) {
+	        if (!$(e.target).closest('.location').length) {
+	            $('.location ul').slideUp(300);
+	            $('.location').removeClass('active');
+	        }
+	    });
+    }
+});

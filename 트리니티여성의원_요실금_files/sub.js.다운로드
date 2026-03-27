@@ -1,0 +1,33 @@
+$(document).ready(function() {
+	/* 병원 소개 */
+		
+    /* 의료진 소개 */
+    var doctorSwiper = new Swiper(".doctorSwiper", {
+    	speed: 700,
+        direction: "vertical",
+        slidesPerView: 1,
+        mousewheel: {
+            releaseOnEdges: true    // 첫/마지막 슬라이드에서 스크롤 해제
+        },
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+    });
+    
+    $('.multi-tab-content > div').not(".content01").hide();
+	$('.tab-nav-wrap ul li').click(function() {
+		$(this).siblings().removeClass('active');
+		$(this).addClass('active');
+		
+		var index = $(this).index();
+		
+		$('.multi-tab-content > div').hide();
+		$('.multi-tab-content > div').eq(index).show();
+	});
+	
+    $(".question").click(function() {
+      $(this).toggleClass("active");
+      $(this).next(".answer").slideToggle(300);
+    });
+});
